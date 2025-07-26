@@ -1,0 +1,213 @@
+{
+  "name": "form-to-sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Automation 1\n\n### First automation to understand the working of nodes and inside settings or configuration\n",
+        "height": 176,
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        -848
+      ],
+      "typeVersion": 1,
+      "id": "54e5a4fc-8030-4f28-92b6-5b0d897d5f9f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "formTitle": "AI Plan Maker Form",
+        "formDescription": "Hey there, glad to meet you. \nPlease fill in the below details so as to connect with amar for AI Plan Maker. ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Your Name"
+            },
+            {
+              "fieldLabel": "Address",
+              "placeholder": "Your Address"
+            },
+            {
+              "fieldLabel": "Gender",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Male"
+                  },
+                  {
+                    "option": "Female"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Send Now"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -576
+      ],
+      "id": "3354b9f4-b26f-441b-ab11-d3e4b27d5426",
+      "name": "On form submission",
+      "webhookId": "d1e0559d-3470-4733-b8ea-ee23bad43717",
+      "notes": "My First Form"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Lpmy6P_5dDQVpWdPcfbpBpYjwFmoR_Zf7JcJDw9PNh8",
+          "mode": "list",
+          "cachedResultName": "Lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Lpmy6P_5dDQVpWdPcfbpBpYjwFmoR_Zf7JcJDw9PNh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Lpmy6P_5dDQVpWdPcfbpBpYjwFmoR_Zf7JcJDw9PNh8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Address": "={{ $json.Address }}",
+            "Gender": "={{ $json.Gender }}",
+            "submittedAt": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        160,
+        -576
+      ],
+      "id": "34985424-191a-4e2e-aa54-c7c766f7883f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZdH9VNPxzyFYBnVn",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "amarmahaseth09@gmail.com",
+        "subject": "Form Lead Update",
+        "emailType": "text",
+        "message": "=Hey Amar,\nHow are you ?\nThere is a new lead on the form. \n\nName:  {{ $json.Name }} \nAddress: {{ $json.Address }}\nGender: {{ $json.Gender }}\nTime: {{ $json.submittedAt }}\nSource: {{ $workflow.id }}\n\nThanks,",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        368,
+        -576
+      ],
+      "id": "c0703a80-e0aa-49e4-b97c-80a7f6198221",
+      "name": "Send a message",
+      "webhookId": "146f7645-b1ce-4ec5-8501-306a5dc351cb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "IXvFAKoxd6TW6ILG",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ab8529d3-50b7-4ce7-8300-fcde6c400036",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a6e8c4859f479dfe073815eca356a24c54ef0ee8097ca93d631c78be4bde83f"
+  },
+  "id": "sfCeOZnFmuqt6Agv",
+  "tags": []
+}
